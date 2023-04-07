@@ -1,6 +1,8 @@
 package com.project.yorkshirehotels.services;
 
+import com.project.yorkshirehotels.data.dto.request.LoginRequest;
 import com.project.yorkshirehotels.data.dto.request.RegistrationRequest;
+import com.project.yorkshirehotels.data.dto.request.VerifyOtpRequest;
 import com.project.yorkshirehotels.data.dto.response.Reciprocation;
 import com.project.yorkshirehotels.utils.YorkShireHotelsException;
 import org.junit.jupiter.api.Test;
@@ -18,9 +20,9 @@ class HotelManagerServiceImplTest {
     @Test
     void testThatHotelManagerCanRegister() {
         RegistrationRequest register = new RegistrationRequest();
-        register.setFirstName("Damilola");
+        register.setFirstName("Adesewa");
         register.setLastName("Taiwo");
-        register.setEmailAddress("Dondamzy99@gmail.com");
+        register.setEmailAddress("adebolexsewa@gmail.com");
         register.setPassword("Dondamzy@99");
         register.setStaffVIN("SQ7801264");
         String reply = hotelManagerService.HotelManagerRegistration(register);
@@ -36,5 +38,15 @@ class HotelManagerServiceImplTest {
         register.setPassword("Dondamzy");
         register.setStaffVIN("SQ7801264");
         assertThrows(YorkShireHotelsException.class, () -> hotelManagerService.HotelManagerRegistration(register));
+    }
+
+    @Test
+    void testThatHotelManagerAccountHasBeenCreated() {
+        VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest();
+        verifyOtpRequest.setToken("7162");
+        verifyOtpRequest.setEmailAddress("adebolexsewa@gmail.com");
+        Reciprocation registrationResponse =
+                hotelManagerService.createAccount(verifyOtpRequest);
+        assertEquals("Registration is Successful", registrationResponse.getMessage());
     }
 }

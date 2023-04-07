@@ -11,9 +11,13 @@ import com.project.yorkshirehotels.data.repository.HotelManagerRepository;
 import com.project.yorkshirehotels.utils.Token;
 import com.project.yorkshirehotels.utils.Validators;
 import com.project.yorkshirehotels.utils.YorkShireHotelsException;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+import static com.project.yorkshirehotels.data.models.Status.VERIFIED;
 
 @Service
 public class HotelManagerServiceImpl implements HotelManagerService {
@@ -83,7 +87,36 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
     @Override
     public Reciprocation createAccount(VerifyOtpRequest verifyOtpRequest) {
-        return null;
+        verifyOTP(verifyOtpRequest);
+        HotelManager savedHotelManager = findHotelManager(verifyOtpRequest.getEmailAddress());
+        savedHotelManager.setStatus(VERIFIED);
+        hotelManagerRepository.save(savedHotelManager);
+        return registrationResponse(savedHotelManager);
+    }
+
+    public void verifyOTP(VerifyOtpRequest verifyOtpRequest) {
+        OTPToken foundToken = otpRepository.findByToken(verifyOtpRequest.getToken())
+                .orElseThrow(() -> new RuntimeException("Token doesn't exist"));
+        if (foundToken.getExpiredAt().isBefore(LocalDateTime.now()))
+            throw new RuntimeException("Token has expired");
+        if (foundToken.getVerifiedAt() != null)
+            throw new RuntimeException("Token has been used");
+        if (!Objects.equals(verifyOtpRequest.getToken(), foundToken.getToken()))
+            throw new RuntimeException("Incorrect token");
+//        otpTokenRepository.setVerifiedAt(LocalDateTime.now(), verifyOtpRequest.getToken());
+        var token = otpRepository.findByToken(foundToken.getToken())
+                .orElseThrow(() -> new RuntimeException("token not found"));
+        token.setVerifiedAt(LocalDateTime.now());
+        otpRepository.save(token);
+    }
+
+
+    private Reciprocation registrationResponse(HotelManager savedHotelManager) {
+        Reciprocation reply = new Reciprocation();
+        reply.setUserId(savedHotelManager.getHotelManagerId());
+        reply.setStatusCode(201);
+        reply.setMessage("Registration is Successful");
+        return reply;
     }
 
     @Override

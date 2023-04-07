@@ -10,7 +10,7 @@ public class Validators {
     }
 
     public static boolean validateStaffVIN(String staffVIN) {
-        return staffVIN.contains("14");
+        return staffVIN.contains("S");
     }
 
     public static boolean validateEmailAddress(String email) {
