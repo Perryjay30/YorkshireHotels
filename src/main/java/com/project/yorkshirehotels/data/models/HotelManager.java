@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class HotelManager {
     @Id
-    private String adminId;
+    private String HotelManagerId;
     private String firstName;
     private String lastName;
     private String emailAddress;
