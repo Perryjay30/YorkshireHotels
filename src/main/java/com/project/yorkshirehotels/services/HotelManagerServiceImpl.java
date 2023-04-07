@@ -121,7 +121,15 @@ public class HotelManagerServiceImpl implements HotelManagerService {
 
     @Override
     public Response login(LoginRequest loginRequest) {
-        return null;
+        HotelManager registeredHotelManager = findHotelManager(loginRequest.getEmailAddress());
+        Response loginResponse = new Response();
+        if(BCrypt.checkpw(loginRequest.getPassword(), registeredHotelManager.getPassword())) {
+            loginResponse.setMessage("Login is successful");
+            return loginResponse;
+        }
+        else
+            loginResponse.setMessage("Try again, Email or password is incorrect");
+        return loginResponse;
     }
 
     @Override

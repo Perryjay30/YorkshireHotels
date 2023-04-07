@@ -4,6 +4,7 @@ import com.project.yorkshirehotels.data.dto.request.LoginRequest;
 import com.project.yorkshirehotels.data.dto.request.RegistrationRequest;
 import com.project.yorkshirehotels.data.dto.request.VerifyOtpRequest;
 import com.project.yorkshirehotels.data.dto.response.Reciprocation;
+import com.project.yorkshirehotels.data.dto.response.Response;
 import com.project.yorkshirehotels.utils.YorkShireHotelsException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,14 @@ class HotelManagerServiceImplTest {
         Reciprocation registrationResponse =
                 hotelManagerService.createAccount(verifyOtpRequest);
         assertEquals("Registration is Successful", registrationResponse.getMessage());
+    }
+
+    @Test
+    void testThatHotelManagerCanLogin() {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmailAddress("adebolexsewa@gmail.com");
+        loginRequest.setPassword("Dondamzy@99");
+        Response loginResponse = hotelManagerService.login(loginRequest);
+        assertEquals("Login is successful", loginResponse.getMessage());
     }
 }
