@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,13 +44,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room getRoomById(String roomId) {
-        return null;
+    public Room getRoomByNumber(String roomNumber) {
+        return roomRepository.findRoomByRoomNumber(roomNumber).orElseThrow(()
+                -> new YorkShireHotelsException("Room doesn't exist"));
     }
 
     @Override
     public List<Room> getAllRooms() {
-        return null;
+        return roomRepository.findAll();
     }
 
     @Override

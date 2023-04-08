@@ -2,6 +2,7 @@ package com.project.yorkshirehotels.services;
 
 import com.project.yorkshirehotels.data.dto.request.AddRoomRequest;
 import com.project.yorkshirehotels.data.dto.response.Response;
+import com.project.yorkshirehotels.data.models.Room;
 import com.project.yorkshirehotels.utils.YorkShireHotelsException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,17 @@ class RoomServiceImplTest {
         addRoomRequest.setRoomStatus("Unbooked");
         addRoomRequest.setRoomType("Premium");
         assertThrows(YorkShireHotelsException.class, () -> roomService.addRoom("643139bdc46c0d189cbf922b", addRoomRequest));
+    }
+
+    @Test
+    void testThatRoomCanBeFoundByNumber() {
+        Room findRoom = roomService.getRoomByNumber("306");
+        assertEquals("6430ae49615b2d20ccf922cb", findRoom.getRoomId());
+    }
+
+    @Test
+    void testThatRoomCanBeFoundByNumberThrowsException() {
+        assertThrows(YorkShireHotelsException.class, () -> roomService.getRoomByNumber("300"));
     }
 
 }
