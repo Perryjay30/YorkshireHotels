@@ -9,9 +9,11 @@ import java.util.List;
 
 public interface RoomService {
     Response addRoom(String hotelManagerID, AddRoomRequest addRoomRequest);
-    Room getRoomByNumber(String roomNumber);
+    Room getRoomByNumber(String hotelManagerID, String roomNumber);
     List<Room> getAllRooms();
-    List<Room> getAvailableRooms();
-    List<Room> getBookedRooms();
-    Response editRoomDetails( String roomId, UpdateRoomRequest updateRoomRequest);
+    List<Room> getAllAvailableRooms(String hotelManagerID);
+    List<Room> getAllBookedRooms(String hotelManagerID);
+    Response numberAndPriceOfAvailablePremiumRooms(String hotelManagerID);
+    Response numberAndPriceOfAvailableEconomyRooms(String hotelManagerID);
+    Response editRoomDetails(String hotelManagerID, String roomId, UpdateRoomRequest updateRoomRequest);
 }
