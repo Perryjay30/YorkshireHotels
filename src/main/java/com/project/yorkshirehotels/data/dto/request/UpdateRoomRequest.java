@@ -5,6 +5,7 @@ import com.project.yorkshirehotels.data.models.RoomType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Data
@@ -14,7 +15,7 @@ public class UpdateRoomRequest {
     @NotBlank(message = "This field is required")
     private RoomType roomType;
     @NotBlank(message = "This field is required")
-    private BigInteger roomPrice;
+    private BigDecimal roomPrice;
     @NotBlank(message = "This field is required")
     private RoomStatus roomStatus;
 }

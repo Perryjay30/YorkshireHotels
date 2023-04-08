@@ -3,7 +3,6 @@ package com.project.yorkshirehotels.services;
 import com.project.yorkshirehotels.data.dto.request.AddRoomRequest;
 import com.project.yorkshirehotels.data.dto.request.UpdateRoomRequest;
 import com.project.yorkshirehotels.data.dto.response.Response;
-import com.project.yorkshirehotels.data.models.HotelManager;
 import com.project.yorkshirehotels.data.models.Room;
 import com.project.yorkshirehotels.data.models.RoomStatus;
 import com.project.yorkshirehotels.data.models.RoomType;
@@ -11,8 +10,6 @@ import com.project.yorkshirehotels.data.repository.RoomRepository;
 import com.project.yorkshirehotels.utils.YorkShireHotelsException;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class RoomServiceImpl implements RoomService {
         Room newRoom = Room.builder()
                 .roomNumber(addRoomRequest.getRoomNumber())
                 .roomPrice(addRoomRequest.getRoomPrice())
-                .roomStatus(RoomStatus.valueOf(addRoomRequest.getRoomStatus().toUpperCase()))
+                .roomStatus(RoomStatus.UNBOOKED)
                 .roomType(RoomType.valueOf(addRoomRequest.getRoomType().toUpperCase()))
                 .build();
         roomRepository.save(newRoom);
@@ -108,6 +105,18 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Response editRoomDetails(String hotelManagerID, String roomId, UpdateRoomRequest updateRoomRequest) {
         hotelManagerService.findHotelManagerById(hotelManagerID);
-        return null;
+        Room editRoom = roomRepository.findById(roomId).orElseThrow(()
+                -> new YorkShireHotelsException("This room isn't on our database!!"));
+        updateRoom(updateRoomRequest, editRoom);
+        roomRepository.save(editRoom);
+        return new Response("Room updated successfully");
+    }
+
+    private void updateRoom(UpdateRoomRequest updateRoomRequest, Room editRoom) {
+        editRoom.setRoomNumber(updateRoomRequest.getRoomNumber()!= null && !updateRoomRequest.getRoomNumber().equals("")
+                ? updateRoomRequest.getRoomNumber() : editRoom.getRoomNumber());
+        editRoom.setRoomPrice(updateRoomRequest.getRoomPrice()!= null  ? updateRoomRequest.getRoomPrice() : editRoom.getRoomPrice());
+        editRoom.setRoomType(updateRoomRequest.getRoomType()!= null ? updateRoomRequest.getRoomType() : editRoom.getRoomType());
+        editRoom.setRoomStatus(updateRoomRequest.getRoomStatus()!= null ? updateRoomRequest.getRoomStatus() : editRoom.getRoomStatus());
     }
 }
