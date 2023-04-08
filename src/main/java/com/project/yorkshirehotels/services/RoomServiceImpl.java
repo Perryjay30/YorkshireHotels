@@ -85,7 +85,7 @@ public class RoomServiceImpl implements RoomService {
             if(rooms.getRoomType().equals(RoomType.PREMIUM) && rooms.getRoomStatus().equals(RoomStatus.UNBOOKED))
                 availablePremiumRooms.add(rooms);
         }
-        return new Response("Available premium rooms are: " + availablePremiumRooms.size() +
+        return new Response("Available premium rooms are: " + availablePremiumRooms.size() + " " +
                 "and their total amount is : " + availablePremiumRooms.size() * 100.00);
     }
 
@@ -98,8 +98,8 @@ public class RoomServiceImpl implements RoomService {
             if(rooms.getRoomType().equals(RoomType.ECONOMY) && rooms.getRoomStatus().equals(RoomStatus.UNBOOKED))
                 availableEconomyRooms.add(rooms);
         }
-        return new Response("Available premium rooms are: " + availableEconomyRooms.size() +
-                "and their total amount is : " + availableEconomyRooms.size() * 65.00);
+        return new Response("Available economy rooms are: " + availableEconomyRooms.size() + " " +
+                "and their total amount is : " + availableEconomyRooms.size() * 65000.0);
     }
 
     @Override
