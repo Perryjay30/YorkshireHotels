@@ -86,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
                 availablePremiumRooms.add(rooms);
         }
         return new Response("Available premium rooms are: " + availablePremiumRooms.size() + " " +
-                "and their total amount is : " + availablePremiumRooms.size() * 100.00);
+                "and their total amount is : " + availablePremiumRooms.size() * 100000.00);
     }
 
     @Override

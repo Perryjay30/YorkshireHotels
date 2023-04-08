@@ -65,5 +65,12 @@ class RoomServiceImplTest {
         assertEquals("Available economy rooms are: 3 and their total amount is : 195000.0", resp.getMessage());
     }
 
+    @Test
+    void testThatNumberAndPriceOfAvailablePremiumRoomsMethodWorks() {
+        Response resp = roomService.numberAndPriceOfAvailablePremiumRooms("643139bdc46c0d189cbf922b");
+        assertEquals("Available premium rooms are: 2 and their total amount is : 200000.0", resp.getMessage());
+    }
+
+
 
 }
