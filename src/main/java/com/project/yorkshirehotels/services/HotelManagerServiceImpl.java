@@ -133,6 +133,12 @@ public class HotelManagerServiceImpl implements HotelManagerService {
     }
 
     @Override
+    public HotelManager findHotelManagerById(String hotelManagerId) {
+        return hotelManagerRepository.findById(hotelManagerId).orElseThrow(()
+                -> new YorkShireHotelsException("Hotel manager doesn't exist"));
+    }
+
+    @Override
     public Response updateHotelManagerDetails(UpdateRequest updateRequest) {
         return null;
     }
