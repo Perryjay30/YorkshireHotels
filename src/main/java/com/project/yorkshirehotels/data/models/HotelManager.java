@@ -15,4 +15,5 @@ public class HotelManager {
     private String password;
     private String phoneNumber;
     private String staffVIN;
+    private Status status;
 }
